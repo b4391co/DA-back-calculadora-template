@@ -1,4 +1,4 @@
-name: CI/CD Calculadora
+name: CI/CD Pipeline
 
 on: [push]
 
@@ -22,7 +22,7 @@ jobs:
         run: |
           pytest -v
       - name: Lint with Ruff
-        run: ruff check .
+        run: ruff check . --fix
 
   docker-hub:
     needs: test-and-lint
@@ -40,7 +40,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/da-back-calculadora:latest
+          tags: b4391co/da-back-calculadora:latest
 
   github-packages:
     needs: test-and-lint
@@ -59,4 +59,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ghcr.io/${{ github.repository }}/da-back-calculadora:latest
+          tags: ghcr.io/${{ github.repository_owner }}/da-back-calculadora:latest
